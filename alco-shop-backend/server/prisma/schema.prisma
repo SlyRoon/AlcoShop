@@ -1,0 +1,110 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlserver"
+  url      = env("DATABASE_URL")
+}
+
+model Categories {
+  CategoryId  Int        @id(map: "PK_Categories") @default(autoincrement())
+  Name        String     @db.NVarChar(100)
+  Description String?    @db.NVarChar(255)
+  Products    Products[]
+}
+
+model OrderItems {
+  OrderItemId Int      @id(map: "PK_OrderItems") @default(autoincrement())
+  OrderId     Int
+  ProductId   Int
+  Quantity    Int
+  Subtotal    Decimal  @db.Decimal(10, 2)
+  Orders      Orders   @relation(fields: [OrderId], references: [OrderId], onDelete: Cascade, onUpdate: NoAction, map: "FK_OrderItems_Orders")
+  Products    Products @relation(fields: [ProductId], references: [ProductId], onUpdate: NoAction, map: "FK_OrderItems_Products")
+}
+
+model Orders {
+  OrderId    Int          @id(map: "PK_Orders") @default(autoincrement())
+  UserId     Int
+  OrderDate  DateTime
+  Total      Decimal      @db.Decimal(10, 2)
+  Status     String       @db.NVarChar(50)
+  OrderItems OrderItems[]
+  Payments   Payments[]
+}
+
+model Payments {
+  PaymentId   Int       @id(map: "PK_Payments") @default(autoincrement())
+  OrderId     Int
+  PaymentDate DateTime?
+  Amount      Decimal   @db.Decimal(10, 2)
+  Method      String?   @db.NVarChar(50)
+  Orders      Orders    @relation(fields: [OrderId], references: [OrderId], onDelete: Cascade, onUpdate: NoAction, map: "FK_Payments_Orders")
+}
+
+model Products {
+  ProductId      Int          @id(map: "PK_Products") @default(autoincrement())
+  Name           String       @db.NVarChar(100)
+  CategoryId     Int
+  Price          Decimal      @db.Decimal(8, 2)
+  AlcoholPercent Decimal?     @db.Decimal(4, 1)
+  VolumeML       Int?
+  Stock          Int
+  Description    String?      @db.NVarChar(Max)
+  ImagePath      String?      @db.NVarChar(200)
+  OrderItems     OrderItems[]
+  Categories     Categories   @relation(fields: [CategoryId], references: [CategoryId], onUpdate: NoAction, map: "FK_Products_Categories")
+  Reviews        Reviews[]
+
+  @@index([CategoryId], map: "IX_Products_CategoryId")
+  @@index([Name], map: "IX_Products_Name")
+}
+
+model Reviews {
+  ReviewId   Int      @id(map: "PK_Reviews") @default(autoincrement())
+  UserId     Int
+  ProductId  Int
+  Rating     Int
+  Comment    String?  @db.NVarChar(Max)
+  ReviewDate DateTime @db.DateTime
+  Products   Products @relation(fields: [ProductId], references: [ProductId], onDelete: Cascade, onUpdate: NoAction, map: "FK_Reviews_Products")
+  Users      Users    @relation(fields: [UserId], references: [UserId], onUpdate: NoAction, map: "FK_Reviews_Users")
+
+  @@index([ProductId], map: "IX_Reviews_ProductId")
+}
+
+model sysdiagrams {
+  name         String @db.NVarChar(128)
+  principal_id Int
+  diagram_id   Int    @id(map: "PK__sysdiagr__C2B05B61CC0A58F5") @default(autoincrement())
+  version      Int?
+  definition   Bytes?
+
+  @@unique([principal_id, name], map: "UK_principal_name")
+}
+
+model Tokens {
+  Id           Int    @id(map: "PK__Tokens__3214EC07BAC297E1") @default(autoincrement())
+  UserId       Int
+  RefreshToken String @db.NVarChar(500)
+  Users        Users  @relation(fields: [UserId], references: [UserId], onUpdate: NoAction, map: "FK_Tokens_Users")
+}
+
+model Users {
+  UserId         Int       @id(map: "PK_Users") @default(autoincrement())
+  FullName       String    @db.NVarChar(100)
+  Email          String    @unique(map: "UQ_Users_Email") @db.NVarChar(100)
+  PasswordHash   String?   @db.NVarChar(255)
+  Phone          String?   @db.NVarChar(20)
+  Address        String    @db.NVarChar(200)
+  Role           String    @db.NVarChar(20)
+  IsActivated    Boolean
+  ActivationLink String?   @db.NVarChar(255)
+  Reviews        Reviews[]
+  Tokens         Tokens[]
+
+  @@unique([Email, FullName], map: "IX_Users_Email_FullName")
+  @@unique([FullName, Email], map: "IX_Users_FullName_Email")
+  @@index([FullName], map: "IX_Users_FullName")
+}

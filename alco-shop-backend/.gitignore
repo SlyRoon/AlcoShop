@@ -1,0 +1,13 @@
+
+# Keep environment variables out of version control
+.env
+log.log
+package-lock.json
+node_modules/
+.idea
+# static/**/*.jpg
+# static/**/*.png
+# static/**/*.webp
+*.lock
+
+/generated/prisma
