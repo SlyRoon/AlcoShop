@@ -12,6 +12,7 @@ import { addItem } from '../store/itemSlice';
 import { likeItems } from '../store/wishListSlice';
 import { toast } from 'react-toastify';
 import { ROLES } from '../utils/roles';
+import { getImageUrl } from '../utils/getImageUrl';
 
 function CategoriesList() {
   const dispatch = useDispatch<AppDispatch>();
@@ -199,7 +200,7 @@ function CategoriesList() {
                       >
                         {product.ImagePath ? (
                           <img
-                            src={`http://localhost:5000/images/${product.ImagePath}`}
+                              src={getImageUrl(product.ImagePath)}
                             alt={product.Name}
                             className="w-full h-full object-cover group-hover:scale-110 transition duration-300"
                           />

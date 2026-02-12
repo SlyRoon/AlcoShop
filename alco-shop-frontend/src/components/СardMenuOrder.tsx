@@ -7,6 +7,7 @@ import { selectTotalPrice } from '../store/itemSlice';
 import { selectTotalPriceDeliver } from '../store/itemSlice';
 import OrderService from '../service/order/OrderSrevice';
 import UpdateUserInfoService from '../service/user/UpdateUserInfoServise';
+import { getImageUrl } from '../utils/getImageUrl';
 
 import { toast } from 'react-toastify';
 
@@ -252,7 +253,7 @@ function CardMenuOrder() {
             {itemCard.map((item) => (
               <div key={item.ProductId} className="flex gap-4 pb-4 border-b">
                 <img
-                  src={`http://localhost:5000/images/${item.ImagePath}`}
+                  src={getImageUrl(item.ImagePath)}
                   alt={item.Name}
                   className="w-20 h-20 object-cover rounded"
                 />

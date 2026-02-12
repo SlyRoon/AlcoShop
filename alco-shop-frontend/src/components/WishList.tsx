@@ -6,6 +6,7 @@ import { removeLikeItem } from '../store/wishListSlice';
 import { useState } from 'react';
 import Cart from './CardMenu';
 import { toast } from 'react-toastify';
+import { getImageUrl } from '../utils/getImageUrl';
 
 function WishList() {
   const navigate = useNavigate();
@@ -74,7 +75,7 @@ function WishList() {
                 <div className="relative bg-gray-100 h-80 flex items-center justify-center overflow-hidden cursor-pointer group/image w-full">
                   <img
                     onClick={() => navigate(`/product/${item.ProductId}`)}
-                    src={`http://localhost:5000/images/${item.ImagePath}`}
+                    src={getImageUrl(item.ImagePath)}
                     alt={item.Name}
                     className="w-full h-full object-cover group-hover:scale-110 transition duration-300"
                   />

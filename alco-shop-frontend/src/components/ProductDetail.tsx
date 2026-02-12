@@ -10,6 +10,7 @@ import ReviewService from '../service/review/ReviewService';
 import { IGetReview } from '../models/review/IGetReview';
 import { likeItems } from '../store/wishListSlice';
 import { toast } from 'react-toastify';
+import { getImageUrl } from '../utils/getImageUrl';
 
 function ProductDetail() {
   const { productId } = useParams<{ productId: string }>();
@@ -161,7 +162,7 @@ function ProductDetail() {
               <div className="w-full h-96 bg-gray-200 rounded-lg mb-6 flex items-center justify-center overflow-hidden">
                 {product.ImagePath ? (
                   <img
-                    src={`http://localhost:5000/images/${product.ImagePath}`}
+                    src={getImageUrl(product.ImagePath)}
                     alt={product.Name}
                     className="w-full h-full object-cover"
                   />

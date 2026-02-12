@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import ProductService from '../service/product/ProductService';
 import { ICategoryProducts } from '../models/category/ICategoryProducts';
+import { getImageUrl } from '../utils/getImageUrl';
 
 function CategoryProducts() {
   const { categoryName } = useParams<{ categoryName: string }>();
@@ -61,7 +62,7 @@ function CategoryProducts() {
                   >
                     {product.ImagePath && (
                       <img
-                        src={`http://localhost:5000/images/${product.ImagePath}`}
+                        src={getImageUrl(product.ImagePath)}
                         alt={product.Name}
                         className="w-full h-48 object-contain block"
                       />
