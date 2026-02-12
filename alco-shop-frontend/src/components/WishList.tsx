@@ -11,8 +11,8 @@ function WishList() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [isCartOpen, setIsCartOpen] = useState(false);
-  const cartItems = useSelector((state: RootState) => state.items.items);
-  const cartCount = cartItems.reduce((sum, item) => sum + item.amount, 0);
+  const itemCard = useSelector((state: RootState) => state.items.items);
+  const cartCount = itemCard.reduce((sum, item) => sum + item.amount, 0);
 
   const likedItems = useSelector((state: RootState) => state.like.items);
 
