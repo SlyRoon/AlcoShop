@@ -17,8 +17,8 @@ function ProductDetail() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const cartItems = useSelector((state: RootState) => state.items.items);
-  const cartCount = cartItems.reduce((sum, item) => sum + item.amount, 0);
+  const itemCard = useSelector((state: RootState) => state.items.items);
+  const cartCount = itemCard.reduce((sum, item) => sum + item.amount, 0);
   const likedItems = useSelector((state: RootState) => state.like.items);
   const user = useSelector((state: RootState) => state.auth.user);
 

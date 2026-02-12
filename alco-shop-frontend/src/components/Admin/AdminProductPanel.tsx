@@ -26,7 +26,7 @@ function AdminProductPanel() {
     )
       return toast.warning('⚠️ Будь ласка, заповніть всі поля');
       try{
-     
+        // Сделать Сервис + UProduct 
       } catch(e) {
         console.error(e)
         toast.error('Не вдалося додати продукт')
