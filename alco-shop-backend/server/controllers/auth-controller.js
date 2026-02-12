@@ -48,9 +48,7 @@ class AuthController {
   }
   async refresh(req, res, next) {
     try {
-      // console.log('Cookies:', req.cookies); ловити помилку
       const { refreshToken } = req.cookies;
-      //  console.log('refreshToken:', refreshToken); ловити помилку
       const userData = await userService.refresh(refreshToken);
       res.cookie('refreshToken', userData.refreshToken, { maxAge: 90 * 24 * 60 * 60 * 1000, httpOnly: true });
       return res.json(userData);
