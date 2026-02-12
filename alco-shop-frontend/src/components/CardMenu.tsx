@@ -4,6 +4,8 @@ import { increment, decrement, removeItem } from '../store/itemSlice';
 import { selectTotalPrice } from '../store/itemSlice';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { getImageUrl } from '../utils/getImageUrl';
+
 
 interface CartProps {
   isOpen: boolean;
@@ -43,7 +45,7 @@ function Cart({ isOpen, onClose }: CartProps) {
           {itemCard.map((item) => (
             <div key={item.ProductId} className="flex gap-4 pb-4 border-b">
               <img
-                src={`http://localhost:5000/images/${item.ImagePath}`}
+                src={getImageUrl(item.ImagePath)}
                 alt={item.Name}
                 className="w-20 h-20 object-cover rounded"
               />
