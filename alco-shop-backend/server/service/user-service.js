@@ -54,18 +54,10 @@ class UserService {
       throw ApiError.BadRequest('Некоректне посилання активації');
     }
 
-    // if (user.IsActivated) {
-    //   console.log('User already activated, id =', user.UserId);
-    //   return user;
-    // }
-
     const updatedUser = await prisma.users.update({
       where: { UserId: user.UserId },
       data: { IsActivated: true },
     });
-
-    // console.log('UserService.activate END, id =', updatedUser.UserId, 'IsActivated =', updatedUser.IsActivated);
-
     return updatedUser;
   }
 
